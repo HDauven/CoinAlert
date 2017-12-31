@@ -15,11 +15,11 @@ pp = pprint.PrettyPrinter(width=41, compact=True)
 
 dotenv.load()
 
-key = dotenv.get('bittrex_key')
-secret = dotenv.get('bittrex_secret')
+bittrex_api_key = dotenv.get('bittrex_api_key')
+bittrex_api_secret = dotenv.get('bittrex_api_secret')
 interval = dotenv.get('polling_interval')
 
-my_bittrex = Bittrex(key, secret)  # or defaulting to v1.1 as Bittrex(None, None)
+my_bittrex = Bittrex(bittrex_api_key, bittrex_api_secret)
 
 markets = my_bittrex.get_markets()['result']
 currencies = my_bittrex.get_currencies()['result']
