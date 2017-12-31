@@ -1,4 +1,5 @@
 deepdiff
+python-binance
 python-bittrex
 python-env
 python-telegram-bot
