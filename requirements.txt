@@ -1,3 +1,4 @@
 deepdiff
 python-bittrex
 python-env
+python-telegram-bot
