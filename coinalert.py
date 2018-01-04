@@ -32,10 +32,16 @@ updater = Updater(token=dotenv.get('telegram_bot'))
 dispatcher = updater.dispatcher
 
 dispatcher.bot.send_message(dotenv.get('telegram_group'), 'Waking up...')
+counter = 0
 
-dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} tickers on Binance'.format(len(tickers)))
-dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} markets on Bittrex'.format(len(markets)))
-dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} currencies on Bittrex'.format(len(currencies)))
+
+def check_market_sizes(tickers, currencies, markets):
+    print("Tickers: {} - {}".format(len(tickers), tickers))
+    print("Currencies: {} - {}".format(len(currencies), currencies))
+    print("Markets: {} - {}".format(len(markets), markets))
+    dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} tickers on Binance'.format(len(tickers)))
+    dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} currencies on Bittrex'.format(len(currencies)))
+    dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} markets on Bittrex'.format(len(markets)))
 
 
 def check_for_changes(command, result_list, value_of_interest, value_of_interest_long, identifier, exchange):
@@ -75,9 +81,14 @@ while True:
     m1 = m2
     t1 = t2
 
+    if counter >= 480:
+        check_market_sizes(t1, c1, m1)
+        counter = 0
+
     pp.pprint(new_markets)
     pp.pprint(new_currencies)
     pp.pprint(new_tickers)
+    counter += 1
     sleep(interval - time() % interval)
 
 # def main():
