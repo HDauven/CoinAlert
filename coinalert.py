@@ -11,6 +11,16 @@ pp = pprint.PrettyPrinter(width=41, compact=True)
 
 dotenv.load()
 
+
+def check_market_sizes(tickers, currencies, markets):
+    print("Tickers: {} - {}".format(len(tickers), tickers))
+    print("Currencies: {} - {}".format(len(currencies), currencies))
+    print("Markets: {} - {}".format(len(markets), markets))
+    dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} tickers on Binance'.format(len(tickers)))
+    dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} currencies on Bittrex'.format(len(currencies)))
+    dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} markets on Bittrex'.format(len(markets)))
+
+
 binance_api_key = dotenv.get('binance_api_key')
 binance_api_secret = dotenv.get('binance_api_secret')
 
@@ -32,16 +42,8 @@ updater = Updater(token=dotenv.get('telegram_bot'))
 dispatcher = updater.dispatcher
 
 dispatcher.bot.send_message(dotenv.get('telegram_group'), 'Waking up...')
+check_market_sizes(t1, c1, m1)
 counter = 0
-
-
-def check_market_sizes(tickers, currencies, markets):
-    print("Tickers: {} - {}".format(len(tickers), tickers))
-    print("Currencies: {} - {}".format(len(currencies), currencies))
-    print("Markets: {} - {}".format(len(markets), markets))
-    dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} tickers on Binance'.format(len(tickers)))
-    dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} currencies on Bittrex'.format(len(currencies)))
-    dispatcher.bot.send_message(dotenv.get('telegram_group'), '{} markets on Bittrex'.format(len(markets)))
 
 
 def check_for_changes(command, result_list, value_of_interest, value_of_interest_long, identifier, exchange):
@@ -81,6 +83,7 @@ while True:
     m1 = m2
     t1 = t2
 
+    print(counter)
     if counter >= 480:
         check_market_sizes(t1, c1, m1)
         counter = 0
